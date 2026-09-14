@@ -14,6 +14,14 @@ npm run dev
 
 The app opens at the exact local URL reported by Vinext (normally http://localhost:3000).
 
+For a supervisor demo on another device connected to the same Wi-Fi, use:
+
+```sh
+npm run dev:lan
+```
+
+Then open `http://<your-laptop-IP>:3000/workspace?demo=change` on that device. This uses your local network; it does not use ChatGPT authentication or publish the app to the internet. If macOS asks about incoming network connections, allow Node.js for your private network.
+
 ## Included
 
 - Next-compatible React/TypeScript application, using Vinext and Cloudflare Workers.
