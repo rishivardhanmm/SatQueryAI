@@ -1,0 +1,5 @@
+Satellite reference: contains modified Copernicus Sentinel data (2022), processed by ESA.
+Source: https://www.esa.int/ESA_Multimedia/Images/2023/02/Earth_from_Space_Kolkata_India
+License: CC BY-SA 3.0 IGO — https://creativecommons.org/licenses/by-sa/3.0/igo/
+Modifications: resized for web display; viewer may crop, apply grayscale or display separately identified illustrative vector overlays. The imagery and its adaptations remain under CC BY-SA 3.0 IGO.
+Demo dates, sensor metadata, masks and confidence are illustrative fixtures, not measurements of this source.

@@ -1,0 +1,6 @@
+-r requirements.txt
+torch>=2.5
+transformers>=4.46
+peft>=0.13
+opencv-python-headless>=4.10
+geopandas>=1.0
