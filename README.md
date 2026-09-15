@@ -14,6 +14,28 @@ npm run dev
 
 The app opens at the exact local URL reported by Vinext (normally http://localhost:3000).
 
+## Run on another machine
+
+The demo has no ChatGPT login requirement and no API key is needed. On the new machine:
+
+```sh
+git clone https://github.com/rishivardhanmm/SatQueryAI.git
+cd SatQueryAI
+npm ci
+npx wrangler d1 migrations apply DB --local --config wrangler.local.json
+npm run dev
+```
+
+Open `http://localhost:3000/workspace?demo=change` for the strongest supervisor walkthrough. The first run creates a local D1 database in `.wrangler/`; it is machine-local and is deliberately not committed. Do not copy `.env` or set `MODEL_API_KEY` for the curated demo — trained inference is optional and disabled by default.
+
+Before the demo, verify the project with:
+
+```sh
+npm run typecheck
+npm test
+npm run build
+```
+
 For a supervisor demo on another device connected to the same Wi-Fi, use:
 
 ```sh
@@ -21,6 +43,8 @@ npm run dev:lan
 ```
 
 Then open `http://<your-laptop-IP>:3000/workspace?demo=change` on that device. This uses your local network; it does not use ChatGPT authentication or publish the app to the internet. If macOS asks about incoming network connections, allow Node.js for your private network.
+
+Keep the terminal running while another device uses the demo. Both devices must be on the same Wi-Fi or hotspot. If the network link does not open, confirm that the address shown by `npm run dev:lan` is being used and that the local firewall permits Node.js on the private network.
 
 ## Included
 
