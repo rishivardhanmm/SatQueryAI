@@ -29,9 +29,30 @@ The model repeatedly predicts the mask, compares it to the human-reviewed label,
 
 The geospatial calculator is not trained. It converts the final mask into real area and coordinates using the GeoTIFF’s CRS, pixel size, and transform.
 
+## Do labelled satellite datasets already exist?
+
+Yes. Public datasets already contain satellite images and labels created from maps, existing reference data, or human review. They are useful to begin training and to compare models:
+
+| Public dataset | What it provides | What we can use it for |
+| --- | --- | --- |
+| BigEarthNet | Sentinel-1 SAR and Sentinel-2 optical image patches with land-cover labels | General land-cover learning and optical–SAR pretraining |
+| SEN12MS | Georeferenced Sentinel-1 and Sentinel-2 image pairs | Optical–SAR fusion experiments |
+| LEVIR-CD | Before/after high-resolution image pairs with building-change labels | Testing a building-change baseline |
+
+These datasets reduce the amount of work needed at the start, but they do not prove that a model works for our target location, sensor, or required change categories. Public labels may not include the exact river boundaries, local construction patterns, dates, seasons, or definitions required for the SatQuery AI deployment.
+
+Therefore we use a two-part approach:
+
+```text
+Public labelled datasets → teach a starting model general satellite patterns
+Our reviewed target-area data → fine-tune and validate it for SatQuery AI use cases
+```
+
+We do **not** need to draw every label from scratch if suitable public labels exist. We do need a smaller, high-quality project-specific set to adapt and honestly validate the final models.
+
 ## The data we need
 
-No actual training dataset has been supplied to this project yet. The following is the required dataset specification.
+No actual training dataset has been supplied to this project yet. The following is the required dataset specification for the project-specific portion.
 
 | Use case | Minimum record | Required label |
 | --- | --- | --- |
@@ -176,6 +197,6 @@ Answer:   Generated from the calculated result, with confidence and model versio
 | 7 | Add optical–SAR fusion experiment and local explanation layer |
 | 8 | Run final unseen-location evaluation, create model cards, package demo |
 
-## Pitch for the judge
+## Short presentation pitch
 
 “We will build SatQuery AI as an evidence-first orchestration system. First, we obtain georeferenced satellite imagery and human-reviewed spatial labels. We train a small set of specialised models: one for land cover, one for change between two dates, and one for optical–SAR fusion. Every model returns masks or polygons rather than only text. We compare candidate models on locations and dates they have never seen, choose the best one for each task using accuracy, false-alarm, and area-error metrics, and freeze a final test set for honest reporting. The controller validates the upload, selects the right model from the question and input type, calculates measurements from the returned geometry, and only then lets a local language model explain the verified result. If inputs are invalid or confidence is low, it abstains rather than fabricating an answer.”
