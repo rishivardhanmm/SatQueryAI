@@ -81,7 +81,7 @@ class WaterChangeAdapter:
     """
     def __init__(self):
         root = Path(__file__).resolve().parents[1]
-        checkpoint = root / 'ml' / 'water_classifier' / 'artifacts' / 'water-cnn-eurosat.pt'
+        checkpoint = root / 'ml' / 'water_classifier' / 'model' / 'water-cnn-eurosat.pt'
         if torch is None or not checkpoint.exists():
             raise RuntimeError('Water model checkpoint or local ML runtime is unavailable.')
         self.model = WaterCNN()

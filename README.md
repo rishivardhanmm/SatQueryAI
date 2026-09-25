@@ -120,3 +120,6 @@ WebMCP validation context was available during implementation; that contract is 
 Contains modified Copernicus Sentinel data (2022), processed by ESA, CC BY-SA 3.0 IGO.
 See `public/ATTRIBUTION.txt` and the in-app data attribution for original source and license.
 The reference image was resized; its adaptations retain the source license.
+# SatQuery AI
+
+For the complete clean-machine setup and the included trained water-model examples, see [RUN_LOCAL_DEMO.md](RUN_LOCAL_DEMO.md).
