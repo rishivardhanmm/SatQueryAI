@@ -40,5 +40,9 @@ next-env.d.ts
 # Development cache
 *.tsbuildinfo
 __pycache__/
+.venv-water/
+/data/
+/ml/water_classifier/artifacts/
+/output/
 # Checked-in non-secret configuration template
 !.env.example
