@@ -91,7 +91,10 @@ class WaterChangeAdapter:
 
     def _grid(self, image):
         image = image.convert('RGB')
-        cols, rows = 8, 8
+        # EuroSAT training chips are 64 × 64 Sentinel-2 pixels. A 16 × 16
+        # grid keeps inference tiles closer to that footprint for a 768px
+        # exported Sentinel-2 image than the earlier coarse 8 × 8 grid.
+        cols, rows = 16, 16
         tiles = []
         for row in range(rows):
             for col in range(cols):
@@ -123,7 +126,7 @@ class WaterChangeAdapter:
             evidence=changed or [Region(id='water-grid', label='No grid cell crossed the change threshold', kind='water', points=[[0,0],[1,0],[1,1],[0,1]], area=0)],
             metrics=[{'label':'Before water coverage','value':f'{before_coverage:.1f}%'},{'label':'After water coverage','value':f'{after_coverage:.1f}%'},{'label':'Estimated change','value':f'{delta:+.1f} pp'},{'label':'Model benchmark F1','value':'90.75%'}],
             limitations=['Tile-level classifier estimate, not a pixel segmentation mask.', 'The two images must be co-registered observations of the same location.', 'Coverage percentage is not a geographic area calculation.'],
-            steps=['Loaded trained water classifier checkpoint', 'Classified 8 × 8 tiles for both dates', 'Compared per-tile water probabilities', 'Returned evidence cells and coverage estimate'],
+            steps=['Loaded trained water classifier checkpoint', 'Classified 16 × 16 tiles for both dates', 'Compared per-tile water probabilities', 'Returned evidence cells and coverage estimate'],
         )
 
 try:
