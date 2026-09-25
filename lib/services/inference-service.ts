@@ -1,6 +1,6 @@
 import type { Analysis } from '../domain';
 /** Trust boundary for separately deployed specialist inference. Never accepts a user-provided URL. */
-export async function inferWithProvider(base: Analysis): Promise<Analysis> {
+export async function inferWithProvider(base: Analysis, origin?: string): Promise<Analysis> {
   const { env } = await import('cloudflare:workers');
   const config = env as unknown as {
     INFERENCE_URL?: string;
@@ -21,6 +21,9 @@ export async function inferWithProvider(base: Analysis): Promise<Analysis> {
         mode: base.mode,
         images: base.images,
         threshold: base.parameters.threshold,
+        image_urls: origin
+          ? base.images.map((image) => `${origin}/api/images/${image.id}`)
+          : [],
       }),
       signal: AbortSignal.timeout(60000),
     });

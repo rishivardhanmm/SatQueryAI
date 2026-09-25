@@ -168,7 +168,7 @@ export async function POST(request: Request) {
       if (!a.demo) {
         const { inferWithProvider } =
           await import('@/lib/services/inference-service');
-        a = await inferWithProvider(a);
+        a = await inferWithProvider(a, new URL(request.url).origin);
       }
       await saveRecord('analyses', a.id, a);
       return json(a, 201);
