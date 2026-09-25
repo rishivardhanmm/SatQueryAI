@@ -60,11 +60,20 @@ export function validateImages(
   if (images.length === 2) {
     const [a, b] = images;
     const same = !!a.crs && a.crs === b.crs;
+    const matchingImageGrid =
+      !a.crs &&
+      !b.crs &&
+      a.width === b.width &&
+      a.height === b.height &&
+      ['PNG', 'JPEG'].includes(a.format) &&
+      ['PNG', 'JPEG'].includes(b.format);
     add(
       'CRS',
-      same ? 'pass' : 'fail',
+      same || matchingImageGrid ? 'pass' : 'fail',
       same
         ? `${a.crs} · compatible`
+        : matchingImageGrid
+          ? 'No CRS · matching exported image grid accepted for coverage comparison'
         : 'Pair must share a known CRS; reproject before analysis.',
     );
     if (same && a.bounds && b.bounds) {
@@ -80,7 +89,13 @@ export function validateImages(
         pct >= 90 ? 'pass' : 'fail',
         `${pct.toFixed(1)}% overlap · minimum 90% required`,
       );
-    } else
+    } else if (matchingImageGrid)
+      add(
+        'Geographic overlap',
+        'pass',
+        'Matching 2D export dimensions. Geographic overlap cannot be independently verified.',
+      );
+    else
       add(
         'Geographic overlap',
         'fail',
@@ -96,9 +111,11 @@ export function validateImages(
       );
     add(
       'Resolution',
-      res ? 'pass' : 'fail',
+      res || matchingImageGrid ? 'pass' : 'fail',
       res
         ? 'Pixel sizes within 5% tolerance'
+        : matchingImageGrid
+          ? 'Matching exported pixel dimensions'
         : 'Resample to a compatible pixel grid.',
     );
     add(
