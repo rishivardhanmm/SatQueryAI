@@ -1,0 +1,95 @@
+[
+  {
+    "id": "water-lake-mead-proven",
+    "question": "Has water coverage changed?",
+    "claim": "Directly tested water-model demonstration; estimated 8.6% to 5.9% tile-level water coverage in the local validation run.",
+    "source": "Copernicus Sentinel-2 L2A RGB exports, retained from the existing trained-water demo.",
+    "before": {
+      "file": "water-lake-mead-proven/before.jpg",
+      "datetime": "2018-12-22"
+    },
+    "after": {
+      "file": "water-lake-mead-proven/after.jpg",
+      "datetime": "2024-12-30"
+    },
+    "review_status": "model_tested_and_recommended"
+  },
+  {
+    "id": "vegetation-seasonal-nebraska",
+    "center": [
+      -97.0,
+      40.75
+    ],
+    "radius_degrees": 0.025,
+    "before": {
+      "file": "vegetation-seasonal-nebraska/before.jpg",
+      "scene_id": "S2A_MSIL2A_20230412T171901_R012_T14TPL_20240828T191024",
+      "datetime": "2023-04-12T17:19:01.025000Z",
+      "cloud_cover": 0.001606,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/14/T/PL/2023/04/12/S2A_MSIL2A_20230412T171901_N0510_R012_T14TPL_20240828T191024.SAFE/GRANULE/L2A_T14TPL_A040764_20230412T172308/IMG_DATA/R10m/T14TPL_20230412T171901_TCI_10m.tif"
+    },
+    "after": {
+      "file": "vegetation-seasonal-nebraska/after.jpg",
+      "scene_id": "S2A_MSIL2A_20230830T171901_R012_T14TPL_20240822T112126",
+      "datetime": "2023-08-30T17:19:01.024000Z",
+      "cloud_cover": 0.000206,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/14/T/PL/2023/08/30/S2A_MSIL2A_20230830T171901_N0510_R012_T14TPL_20240822T112126.SAFE/GRANULE/L2A_T14TPL_A042766_20230830T173116/IMG_DATA/R10m/T14TPL_20230830T171901_TCI_10m.tif"
+    },
+    "question": "Has green vegetation cover changed?",
+    "claim": "Seasonal crop/vegetation contrast; not a permanent land-use claim.",
+    "source": "Copernicus Sentinel-2 L2A via Microsoft Planetary Computer",
+    "review_status": "visual_example_only_current_model_not_accepted"
+  },
+  {
+    "id": "builtup-expansion-hyderabad",
+    "center": [
+      78.36,
+      17.43
+    ],
+    "radius_degrees": 0.025,
+    "before": {
+      "file": "builtup-expansion-hyderabad/before.jpg",
+      "scene_id": "S2B_MSIL2A_20190330T050659_R019_T43QHV_20201007T122707",
+      "datetime": "2019-03-30T05:06:59.024000Z",
+      "cloud_cover": 0.011285,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/43/Q/HV/2019/03/30/S2B_MSIL2A_20190330T050659_N0212_R019_T43QHV_20201007T122707.SAFE/GRANULE/L2A_T43QHV_A010770_20190330T052334/IMG_DATA/R10m/T43QHV_20190330T050659_TCI_10m.tif"
+    },
+    "after": {
+      "file": "builtup-expansion-hyderabad/after.jpg",
+      "scene_id": "S2B_MSIL2A_20250328T050659_R019_T43QHV_20250328T072008",
+      "datetime": "2025-03-28T05:06:59.024000Z",
+      "cloud_cover": 0.000894,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/43/Q/HV/2025/03/28/S2B_MSIL2A_20250328T050659_N0511_R019_T43QHV_20250328T072008.SAFE/GRANULE/L2A_T43QHV_A042087_20250328T051529/IMG_DATA/R10m/T43QHV_20250328T050659_TCI_10m.tif"
+    },
+    "question": "Has built-up area increased?",
+    "claim": "Candidate urban and industrial expansion scene; requires visual review before presentation.",
+    "source": "Copernicus Sentinel-2 L2A via Microsoft Planetary Computer",
+    "review_status": "visually_reviewed"
+  },
+  {
+    "id": "lake-mead-water-loss",
+    "center": [
+      -114.85,
+      36.05
+    ],
+    "radius_degrees": 0.025,
+    "before": {
+      "file": "lake-mead-water-loss/before.jpg",
+      "scene_id": "S2A_MSIL2A_20181202T182721_R127_T11SPV_20201008T064717",
+      "datetime": "2018-12-02T18:27:21.024000Z",
+      "cloud_cover": 0.751308,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/11/S/PV/2018/12/02/S2A_MSIL2A_20181202T182721_N0212_R127_T11SPV_20201008T064717.SAFE/GRANULE/L2A_T11SPV_A017999_20181202T182720/IMG_DATA/R10m/T11SPV_20181202T182721_TCI_10m.tif"
+    },
+    "after": {
+      "file": "lake-mead-water-loss/after.jpg",
+      "scene_id": "S2A_MSIL2A_20241230T182751_R127_T11SPA_20241230T213946",
+      "datetime": "2024-12-30T18:27:51.024000Z",
+      "cloud_cover": 0.042628,
+      "visual_asset": "https://sentinel2l2a01.blob.core.windows.net/sentinel2-l2/11/S/PA/2024/12/30/S2A_MSIL2A_20241230T182751_N0511_R127_T11SPA_20241230T213946.SAFE/GRANULE/L2A_T11SPA_A049745_20241230T182951/IMG_DATA/R10m/T11SPA_20241230T182751_TCI_10m.tif"
+    },
+    "question": "Has water coverage changed?",
+    "claim": "Candidate reservoir water-extent comparison; validates the water model.",
+    "source": "Copernicus Sentinel-2 L2A via Microsoft Planetary Computer",
+    "review_status": "not_recommended_use_water_lake_mead_proven"
+  }
+]
