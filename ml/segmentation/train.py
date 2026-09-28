@@ -57,7 +57,10 @@ def miou(model, loader, device):
     with torch.no_grad():
         for x,y in loader:
             p=model(x.to(device)).argmax(1).cpu(); valid=y != 255
-            for truth,pred in zip(y[valid].flatten(), p[valid].flatten()): matrix[truth,pred] += 1
+            # Vectorised confusion update: a Python loop over every 512px
+            # validation pixel would make a full epoch impractically slow.
+            encoded = y[valid] * 7 + p[valid]
+            matrix += torch.bincount(encoded, minlength=49).reshape(7, 7)
     scores=[]
     for i in range(7):
         denom=matrix[i,:].sum()+matrix[:,i].sum()-matrix[i,i]
