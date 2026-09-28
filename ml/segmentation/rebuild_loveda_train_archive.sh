@@ -10,7 +10,12 @@ verified_prefix=3842359632
 chunk=4194304
 tmp="${TMPDIR:-/tmp}/satquery-loveda-range"
 
-truncate -s "$verified_prefix" "$archive"
+current="$(stat -f %z "$archive")"
+# Keep an already rebuilt, sequential prefix when this command is restarted by
+# a short-lived execution session. Reset only an undersized or oversize file.
+if [ "$current" -lt "$verified_prefix" ] || [ "$current" -gt "$total" ]; then
+  truncate -s "$verified_prefix" "$archive"
+fi
 while [ "$(stat -f %z "$archive")" -lt "$total" ]; do
   start="$(stat -f %z "$archive")"
   remaining=$((total-start)); size="$chunk"; [ "$remaining" -lt "$size" ] && size="$remaining"
