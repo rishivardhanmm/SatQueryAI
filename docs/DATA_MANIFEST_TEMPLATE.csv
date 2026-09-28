@@ -1,0 +1,2 @@
+image_id,scene_id,split,role,source,acquired_at,sensor,modality,crs,bounds,resolution,cloud_percent,annotation_version,annotation_status,annotator,reviewer,before_image_id,after_image_id,mask_path,notes
+example-001,scene-example,train,single,provider,2026-01-01T00:00:00Z,Sentinel-2,Optical,EPSG:32644,"[0,0,0,0]","[10,10]",0,v1,accepted,annotator-a,reviewer-a,,,masks/example-001.png,Replace this row with real data

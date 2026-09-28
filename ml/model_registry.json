@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "id": "water-cnn-eurosat-v1",
+      "task": "tile-level water coverage change estimate",
+      "status": "registered-baseline",
+      "checkpoint": "ml/water_classifier/model/water-cnn-eurosat.pt",
+      "metrics": {"test_accuracy": 0.9018, "water_f1": 0.9075},
+      "scope": "RGB tile-level water classification; aligned before/after coverage estimates",
+      "not_for": ["pixel masks", "geographic area without valid raster metadata", "all sensors and geographies"]
+    },
+    {
+      "id": "landcover-cnn-eurosat-v1",
+      "task": "tile-level ten-class land-cover classification",
+      "status": "registered-baseline",
+      "checkpoint": "ml/landcover_classifier/model/landcover-cnn-eurosat.pt",
+      "metrics": {"test_accuracy": 0.9022, "test_macro_f1": 0.8987},
+      "scope": "RGB tile classification grouped into water, vegetation, and built-up cover",
+      "not_for": ["pixel masks", "dedicated temporal change detection", "geographic area without valid raster metadata"]
+    },
+    {
+      "id": "loveda-tinyunet-v1",
+      "task": "pixel-level land-cover segmentation",
+      "status": "training-data-downloading",
+      "checkpoint": null,
+      "metrics": null,
+      "scope": "Planned mask segmentation for building, road, water, barren, forest, agriculture, and background",
+      "not_for": ["production use before held-out metrics and visual review"]
+    },
+    {
+      "id": "levir-siamese-unet-v1",
+      "task": "pixel-level building change detection",
+      "status": "awaiting-official-data-access",
+      "checkpoint": null,
+      "metrics": null,
+      "scope": "Planned before/after building-change segmentation",
+      "not_for": ["water or vegetation change", "production use before held-out metrics and visual review"]
+    }
+  ]
+}
