@@ -1,10 +1,11 @@
-"""Optional specialist inference gateway. No trained weights are bundled.
+"""Local specialist inference gateway for SatQuery AI.
 
-Implement and register a Specialist adapter to activate inference. The hosted
-controller intentionally abstains until this gateway returns validated evidence.
+The gateway exposes only registered local checkpoints. The web controller
+continues to abstain until this service returns validated spatial evidence.
 """
 from __future__ import annotations
 import io
+import json
 import os
 from pathlib import Path
 from typing import Literal, Protocol
@@ -56,6 +57,18 @@ class Specialist(Protocol):
 
 # Register evaluated adapters here. Keep model loading outside request handlers.
 adapters: dict[str, Specialist] = {}
+
+
+def registered_models():
+    """Expose evidence status without treating an untrained plan as a model."""
+    path = Path(__file__).resolve().parents[1] / 'ml' / 'model_registry.json'
+    try:
+        return [
+            {'id': item['id'], 'status': item['status'], 'task': item['task']}
+            for item in json.loads(path.read_text())['models']
+        ]
+    except (OSError, KeyError, json.JSONDecodeError):
+        return []
 
 
 class WaterCNN(torch.nn.Module if torch else object):
@@ -254,7 +267,12 @@ if water_adapter or landcover_adapter:
     adapters['change'] = ChangeRouter(water_adapter, landcover_adapter)
 @app.get('/health')
 def health():
-    return {'status':'ready','inference_connected':bool(adapters),'adapters':list(adapters)}
+    return {
+        'status':'ready',
+        'inference_connected':bool(adapters),
+        'adapters':list(adapters),
+        'models':registered_models(),
+    }
 @app.post('/infer', response_model=InferenceResult)
 async def infer(request: InferenceRequest, authorization: str | None = Header(default=None)):
     token = os.environ.get('MODEL_API_KEY')
