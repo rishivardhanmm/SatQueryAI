@@ -9,4 +9,6 @@ The dataset is intentionally stored under `data/` and never committed. After the
 .venv-water/bin/python ml/segmentation/train.py
 ```
 
+For the full local Stage 1 sequence, use `ml/segmentation/continue_stage1.sh`. It waits for complete, integrity-checked official archives, downloads the validation archive, extracts and audits every image/mask pair, then starts training. Its progress is written to `ml/segmentation/artifacts/stage1-run.log`.
+
 The resulting model will be evaluated with per-class IoU and mean IoU. Its outputs are distinct from the existing EuroSAT tile models: this stage is the one that produces true pixel masks for water, vegetation classes, and built-up structures.
