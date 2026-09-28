@@ -19,6 +19,7 @@ DATA = ROOT / 'data' / 'processed' / 'loveda'
 OUT = ROOT / 'ml' / 'segmentation' / 'artifacts'
 SEED, EPOCHS, BATCH, SIZE = 26167, 30, 8, 512
 CLASS_NAMES = ['background', 'building', 'road', 'water', 'barren', 'forest', 'agriculture']
+COLORS = np.array([[36, 36, 36], [220, 42, 42], [244, 193, 40], [42, 121, 224], [185, 135, 92], [43, 132, 66], [129, 185, 73]], dtype=np.uint8)
 
 def pairs(split: str):
     images = sorted((DATA / split).rglob('images_png/*.png'))
@@ -67,6 +68,21 @@ def miou(model, loader, device):
         if denom: scores.append((matrix[i,i].float()/denom).item())
     return float(np.mean(scores)), matrix.tolist()
 
+def write_previews(model, items, device):
+    """Save side-by-side RGB, ground-truth, and predicted masks for review."""
+    preview_dir = OUT / 'previews'; preview_dir.mkdir(exist_ok=True)
+    dataset = LoveDA(items[:6])
+    model.eval()
+    with torch.no_grad():
+        for index, (x, truth) in enumerate(dataset):
+            prediction = model(x.unsqueeze(0).to(device)).argmax(1)[0].cpu().numpy()
+            rgb = np.moveaxis(x.numpy(), 0, -1)
+            rgb = np.clip((rgb * np.array([.229,.224,.225])) + np.array([.485,.456,.406]), 0, 1)
+            rgb = (rgb * 255).astype(np.uint8)
+            actual = truth.numpy(); actual = np.where(actual == 255, 0, actual)
+            panel = np.concatenate([rgb, COLORS[actual], COLORS[prediction]], axis=1)
+            Image.fromarray(panel).save(preview_dir / f'validation-{index + 1}.png')
+
 def main():
     random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED); OUT.mkdir(parents=True,exist_ok=True)
     train, val = pairs('Train'), pairs('Val'); device=torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
@@ -80,5 +96,5 @@ def main():
         if score>best[0]: best=(score,{k:v.cpu().clone() for k,v in model.state_dict().items()})
     model.load_state_dict(best[1]); final, matrix=miou(model,val_loader,device)
     metrics={'dataset':'LoveDA official Train/Val RGB segmentation masks','classes':CLASS_NAMES,'train_images':len(train),'validation_images':len(val),'best_validation_miou':best[0],'final_validation_miou':final,'confusion_matrix':matrix,'image_size':SIZE}
-    (OUT/'metrics.json').write_text(json.dumps(metrics,indent=2));torch.save({'model_state_dict':model.state_dict(),'classes':CLASS_NAMES,'metrics':metrics},OUT/'loveda-tinyunet.pt')
+    (OUT/'metrics.json').write_text(json.dumps(metrics,indent=2));torch.save({'model_state_dict':model.state_dict(),'classes':CLASS_NAMES,'metrics':metrics},OUT/'loveda-tinyunet.pt');write_previews(model,val,device)
 if __name__ == '__main__': main()
